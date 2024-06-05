@@ -12,3 +12,182 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model CompanyDetails {
+  id                    Int                     @id @default(autoincrement())
+  section_id            Int?                    @unique
+  name                  String
+  Section               Section?                @relation(fields: [section_id], references: [id])
+  CompanyDetailsContent CompanyDetailsContent[]
+
+  @@index([section_id], name: "section_id")
+}
+
+model CompanyDetailsContent {
+  id                 Int                       @id @default(autoincrement())
+  company_details_id Int?                      @unique
+  type               CompanyDetailsContentType
+  content            String?
+  url                String?
+  CompanyDetails     CompanyDetails?           @relation(fields: [company_details_id], references: [id])
+
+  @@index([company_details_id], name: "company_details_id")
+}
+
+enum CompanyDetailsContentType {
+  title
+  paragraph
+}
+
+model ContactInformation {
+  id                        Int                         @id @default(autoincrement())
+  section_id                Int?                        @unique
+  name                      String
+  Section                   Section?                    @relation(fields: [section_id], references: [id])
+  ContactInformationContent ContactInformationContent[]
+
+  @@index([section_id], name: "section_id")
+}
+
+model ContactInformationContent {
+  id                     Int                           @id @default(autoincrement())
+  contact_information_id Int?                          @unique
+  type                   ContactInformationContentType
+  content                String?
+  url                    String?
+  ContactInformation     ContactInformation?           @relation(fields: [contact_information_id], references: [id])
+
+  @@index([contact_information_id], name: "contact_information_id")
+}
+
+enum ContactInformationContentType {
+  image
+  paragraph
+  phone_number
+  email
+}
+
+model Page {
+  id       Int       @id @default(autoincrement())
+  name     String
+  Sections Section[]
+}
+
+model ReferenceContent {
+  id               Int                  @id @default(autoincrement())
+  reference_id     Int?                 @unique
+  type             ReferenceContentType
+  content          String?
+  url              String?
+  SectionReference SectionReference?    @relation(fields: [reference_id], references: [id])
+
+  @@index([reference_id], name: "reference_id")
+}
+
+enum ReferenceContentType {
+  title
+  paragraph
+  image
+  name
+  address
+}
+
+model SectionContent {
+  id         Int                @id @default(autoincrement())
+  section_id Int?               @unique
+  type       SectionContentType
+  content    String?
+  url        String?
+  link_text  String?
+  Section    Section?           @relation(fields: [section_id], references: [id])
+
+  @@index([section_id], name: "section_id")
+}
+
+enum SectionContentType {
+  title
+  paragraph
+  image
+  link
+}
+
+model SectionReference {
+  id                Int                @id @default(autoincrement())
+  section_id        Int?               @unique
+  name              String
+  Section           Section?           @relation(fields: [section_id], references: [id])
+  ReferenceContents ReferenceContent[]
+
+  @@index([section_id], name: "section_id")
+}
+
+model Section {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  page_id            Int?                 @unique
+  Page               Page?                @relation(fields: [page_id], references: [id])
+  CompanyDetails     CompanyDetails[]
+  ContactInformation ContactInformation[]
+  SectionContents    SectionContent[]
+  SectionReferences  SectionReference[]
+  Services           Service[]
+  Subscriptions      Subscription[]
+
+  @@index([page_id], name: "page_id")
+}
+
+model ServiceContent {
+  id         Int                @id @default(autoincrement())
+  service_id Int?               @unique
+  type       ServiceContentType
+  content    String?
+  url        String?
+  link_text  String?
+  Service    Service?           @relation(fields: [service_id], references: [id])
+
+  @@index([service_id], name: "service_id")
+}
+
+enum ServiceContentType {
+  title
+  paragraph
+  image
+  link
+}
+
+model Service {
+  id              Int              @id @default(autoincrement())
+  section_id      Int?             @unique
+  name            String
+  Section         Section?         @relation(fields: [section_id], references: [id])
+  ServiceContents ServiceContent[]
+
+  @@index([section_id], name: "section_id")
+}
+
+model SubscriptionContent {
+  id              Int                     @id @default(autoincrement())
+  subscription_id Int?                    @unique
+  type            SubscriptionContentType
+  content         String?
+  Subscription    Subscription?           @relation(fields: [subscription_id], references: [id])
+
+  @@index([subscription_id], name: "subscription_id")
+}
+
+enum SubscriptionContentType {
+  title
+  subtitle
+  paragraph
+  input_text
+}
+
+model Subscription {
+  id                   Int                   @id @default(autoincrement())
+  section_id           Int?                  @unique
+  name                 String
+  Section              Section?              @relation(fields: [section_id], references: [id])
+  SubscriptionContents SubscriptionContent[]
+
+  @@index([section_id], name: "section_id")
+}
