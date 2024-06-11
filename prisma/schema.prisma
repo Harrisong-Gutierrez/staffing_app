@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model CompanyDetails {
+model CompanyDetail {
   id                    Int                     @id @default(autoincrement())
   section_id            Int?                    @unique
   name                  String
@@ -29,7 +29,7 @@ model CompanyDetailsContent {
   type               CompanyDetailsContentType
   content            String?
   url                String?
-  CompanyDetails     CompanyDetails?           @relation(fields: [company_details_id], references: [id])
+  CompanyDetails     CompanyDetail?            @relation(fields: [company_details_id], references: [id])
 
   @@index([company_details_id], name: "company_details_id")
 }
@@ -126,7 +126,7 @@ model Section {
   name               String
   page_id            Int?                 @unique
   Page               Page?                @relation(fields: [page_id], references: [id])
-  CompanyDetails     CompanyDetails[]
+  CompanyDetails     CompanyDetail[]
   ContactInformation ContactInformation[]
   SectionContents    SectionContent[]
   SectionReferences  SectionReference[]
