@@ -1,11 +1,11 @@
 -- CreateTable
-CREATE TABLE `CompanyDetails` (
+CREATE TABLE `CompanyDetail` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `section_id` INTEGER NULL,
     `name` VARCHAR(191) NOT NULL,
 
 
-    UNIQUE INDEX `CompanyDetails_section_id_key`(`section_id`),
+    UNIQUE INDEX `CompanyDetail_section_id_key`(`section_id`),
     INDEX `section_id`(`section_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -165,12 +165,12 @@ CREATE TABLE `Subscription` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `CompanyDetails`
+ALTER TABLE `CompanyDetail`
 ADD CONSTRAINT `CompanyDetails_section_id_fkey` FOREIGN KEY (`section_id`) REFERENCES `Section` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CompanyDetailsContent`
-ADD CONSTRAINT `CompanyDetailsContent_company_details_id_fkey` FOREIGN KEY (`company_details_id`) REFERENCES `CompanyDetails` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ADD CONSTRAINT `CompanyDetailsContent_company_details_id_fkey` FOREIGN KEY (`company_details_id`) REFERENCES `CompanyDetail` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ContactInformation`
