@@ -15,7 +15,7 @@ datasource db {
 
 model CompanyDetail {
   id                    Int                     @id @default(autoincrement())
-  section_id            Int?                    @unique
+  section_id            Int?
   name                  String
   Section               Section?                @relation(fields: [section_id], references: [id])
   CompanyDetailsContent CompanyDetailsContent[]
@@ -25,7 +25,7 @@ model CompanyDetail {
 
 model CompanyDetailsContent {
   id                 Int                       @id @default(autoincrement())
-  company_details_id Int?                      @unique
+  company_details_id Int?
   type               CompanyDetailsContentType
   content            String?
   url                String?
@@ -41,7 +41,7 @@ enum CompanyDetailsContentType {
 
 model ContactInformation {
   id                        Int                         @id @default(autoincrement())
-  section_id                Int?                        @unique
+  section_id                Int?
   name                      String
   Section                   Section?                    @relation(fields: [section_id], references: [id])
   ContactInformationContent ContactInformationContent[]
@@ -51,7 +51,7 @@ model ContactInformation {
 
 model ContactInformationContent {
   id                     Int                           @id @default(autoincrement())
-  contact_information_id Int?                          @unique
+  contact_information_id Int?
   type                   ContactInformationContentType
   content                String?
   url                    String?
@@ -75,7 +75,7 @@ model Page {
 
 model ReferenceContent {
   id               Int                  @id @default(autoincrement())
-  reference_id     Int?                 @unique
+  reference_id     Int?
   type             ReferenceContentType
   content          String?
   url              String?
@@ -94,7 +94,7 @@ enum ReferenceContentType {
 
 model SectionContent {
   id         Int                @id @default(autoincrement())
-  section_id Int?               @unique
+  section_id Int?
   type       SectionContentType
   content    String?
   url        String?
@@ -113,7 +113,7 @@ enum SectionContentType {
 
 model SectionReference {
   id                Int                @id @default(autoincrement())
-  section_id        Int?               @unique
+  section_id        Int?
   name              String
   Section           Section?           @relation(fields: [section_id], references: [id])
   ReferenceContents ReferenceContent[]
@@ -124,7 +124,7 @@ model SectionReference {
 model Section {
   id                 Int                  @id @default(autoincrement())
   name               String
-  page_id            Int?                 @unique
+  page_id            Int?
   Page               Page?                @relation(fields: [page_id], references: [id])
   CompanyDetails     CompanyDetail[]
   ContactInformation ContactInformation[]
@@ -138,7 +138,7 @@ model Section {
 
 model ServiceContent {
   id         Int                @id @default(autoincrement())
-  service_id Int?               @unique
+  service_id Int?
   type       ServiceContentType
   content    String?
   url        String?
@@ -157,7 +157,7 @@ enum ServiceContentType {
 
 model Service {
   id              Int              @id @default(autoincrement())
-  section_id      Int?             @unique
+  section_id      Int?
   name            String
   Section         Section?         @relation(fields: [section_id], references: [id])
   ServiceContents ServiceContent[]
@@ -167,7 +167,7 @@ model Service {
 
 model SubscriptionContent {
   id              Int                     @id @default(autoincrement())
-  subscription_id Int?                    @unique
+  subscription_id Int?
   type            SubscriptionContentType
   content         String?
   Subscription    Subscription?           @relation(fields: [subscription_id], references: [id])
@@ -184,7 +184,7 @@ enum SubscriptionContentType {
 
 model Subscription {
   id                   Int                   @id @default(autoincrement())
-  section_id           Int?                  @unique
+  section_id           Int?
   name                 String
   Section              Section?              @relation(fields: [section_id], references: [id])
   SubscriptionContents SubscriptionContent[]
